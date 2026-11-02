@@ -39,7 +39,7 @@ require 'includes/header.php';
         <div class="alert error"><?=e($error) ?></div>
     <?php endif; ?>
     <form method="post">
-        <label>lietotājvārds
+        <label>Lietotājvārds
             <input type="text" name="username" value="<?= e($username) ?>" required autofocus>
         </label>
         <label>Parole
