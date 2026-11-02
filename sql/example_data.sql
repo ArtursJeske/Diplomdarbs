@@ -5,7 +5,7 @@ SET NAMES utf8mb4;
 USE noliktava;
 
 INSERT INTO lietotaji (lietotajvards, parole_hash, vards, loma) VALUES
-('admin', '$2y$10$vul2lYp6WGN8NfHYVR6IfuX9Sh3ZD0DesovFWaZFiUGPtlRIEGvWW', 'admin', 'admin');
+('admin', '$2y$10$vul2lYp6WGN8NfHYVR6IfuX9Sh3ZD0DesovFWaZFiUGPtlRIEGvWW', 'admin', 'admin'),
 ('janis', '$2y$10$jXSSYRfQhJql.G6IdyqGu.JoOXom7nuazL8.9a3ovtEmdYNzkjueO', 'Jānis Tests', 'Darbinieks');
 
 INSERT INTO kategorijas (nosaukums, apraksts) VALUES
