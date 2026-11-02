@@ -47,4 +47,6 @@ require 'includes/header.php';
         </label>
         <button type="submit" class="btn">Pieslēgties</button>
     </form>
-</div>               
+</div>
+
+<?php require 'includes/footer.php'; ?>
