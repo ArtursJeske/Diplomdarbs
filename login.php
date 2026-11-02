@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if (user && password_verify($password, $user['parole_hash'])) {
+    if ($user && password_verify($password, $user['parole_hash'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['vards'] = $user['vards'];
         $_SESSION['loma'] = $user['loma'];
@@ -36,7 +36,7 @@ require 'includes/header.php';
 <div class="card login-box">
     <h1>Pieslēgšanās</h1>
     <?php if ($error !=''): ?>
-        <div class="alert error"><? =e($error) ?></div>
+        <div class="alert error"><?=e($error) ?></div>
     <?php endif; ?>
     <form method="post">
         <label>lietotājvārds
