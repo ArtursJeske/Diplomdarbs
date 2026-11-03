@@ -2,7 +2,10 @@
 * SQL example dati ielādejās bez kļūdām
 * db.php, auth.php strādā
 * login strāda
+* Index.php strāda, header un footer strādā, admin acc strādā
 
 # TODO
 
-* index.html jāuztaisa - lai var tikt pāri login lapai, tad var taisīt visu pārejo.
+* Jāuztaisa vērtības ar datubāzes vaicājumiem
+* Jānotestē vai pareizi strādā /includes functions vai smuki pārformatē visu
+* Jāuztaisa min daudzuma pārbaude
