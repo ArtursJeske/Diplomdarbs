@@ -6,7 +6,7 @@ require_login();
 $product_count = $pdo->query('SELECT COUNT(*) FROM preces')->fetchColumn();
 $total_qty = $pdo->query('SELECT SUM(daudzums) FROM preces')->fetchColumn();
 $total_value = $pdo->query('SELECT SUM(daudzums * cena) FROM preces')->fetchColumn();
-
+$low_count = $pdo->query('SELECT COUNT(*) FROM preces WHERE daudzums <= min_daudzums')->fetchColumn();
 
 $title = 'Sākums';
 
@@ -28,5 +28,10 @@ require 'includes/header.php';
     <div><?= money($total_value) ?></div>
     <div>Atlikumu kopējā summa</div>
 </div>
-    
+
+<div class="stats">
+    <div><?= (int)$low_count ?></div>
+    <div>Preces ar zemu atlikumu></div>
+</div>    
+<br></br>
 <?php require 'includes/footer.php'; ?>
