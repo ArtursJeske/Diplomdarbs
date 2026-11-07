@@ -26,3 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: categories.php');
         exit;
     }    
+    $edit_id = $id;
+} elseif ($edit_id > 0) {
+
+    $stmt = $pdo->prepare('SELECT * FROM kategorijas WHERE id =?');
+    $stmt->execute([$edit_id]);
+    $row = $stmt->fetch();
+    if ($row) {
+        $nosaukums = $row['nosaukums'];
+        $apraksts = $row['apraksts'];
+    }
+}
