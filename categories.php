@@ -25,7 +25,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         header('Location: categories.php');
         exit;
-    }    
+    }   
+    
+    $nosaukums = trim($_POST['nosaukums']);
+    $apraksts = trim($_POST['apraksts']);
+
+    if (nosaukums == '') {
+        $error = 'Nosaukums ir obligāts.';
+    } else {
+
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM kategorijas WHERE nosaukums = ? AND id !=?');
+        $stmt->execute([$nosaukums, $id]);
+        if ($stmt->fetchColumn() > 0) {
+            $error = 'Šāda kategorija jau eksistē.';
+        }
+    }
+
+
+    if ($error =='') {
+        if ($id > 0) {
+            $stmt = $pdo->prepare ('UPDATE kategorijas SET nosaukums = ?, apraksts = ? WHERE id = ?');
+            $stmt->execute([$nosaukums, $apraksts]);
+            flash('Kategorija pievienota.'); 
+        }
+    }
+
     $edit_id = $id;
 } elseif ($edit_id > 0) {
 
