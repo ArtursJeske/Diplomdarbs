@@ -43,7 +43,7 @@ require 'includes/header.php';
             <p> Visu preču atlikums ir pietiekams.</p>
         <?php else: ?>
             <table>
-                <tr><th>Kods</th><th>Nosaukums</th><th>Atlikums</th><th>Min.</th><th></th><tr>
+                <tr><th>Kods</th><th>Nosaukums</th><th>Atlikums</th><th>Min.</th></tr>
                 <?php foreach ($low_stock as $p): ?>
                     <tr>
                         <td><?= e($p['kods']) ?></td>
