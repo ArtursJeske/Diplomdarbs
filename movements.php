@@ -4,7 +4,7 @@ require_login();
 
 $error = '';
 $selected_product = (int)($_GET['prece'] ?? 0);
-$form_type = 'saņemta';
+$form_type = 'sanemta';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_id = (int)$_POST['prece_id'];
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$product) {
         $error = 'Izvēlies preci.';
-    } elseif ($type != 'saņemta' && $type != 'izsniegta') {
+    } elseif ($type != 'sanemta' && $type != 'izsniegta') {
         $error = 'Nezināms kustības tips.';
     } elseif ($qty <= 0) {
         $error = 'Daudzumam jābūt lielākam par 0.';
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($error == '') {
        
-        if ($type == 'saņemta') {
+        if ($type == 'sanemta') {
             $change = $qty;
         } else {
             $change = -$qty;
@@ -87,7 +87,7 @@ require 'includes/header.php';
         <?php endforeach; ?>
     </select>
     <select name="tips">
-        <option value="saņemta">Saņemts (pieņemšana)</option>
+        <option value="sanemta">Saņemts (pieņemšana)</option>
         <option value="izsniegta" <?= $form_type == 'izsniegta' ? 'selected' : '' ?>>Izsniegts</option>
     </select>
     <input type="number" name="daudzums" min="1" placeholder="Daudzums" required>
@@ -103,7 +103,7 @@ require 'includes/header.php';
             <td><?= format_date($m['datums']) ?></td>
             <td><?= e($m['kods']) ?></td>
             <td><?= e($m['nosaukums']) ?></td>
-            <?php if ($m['tips'] == 'saņemta'): ?>
+            <?php if ($m['tips'] == 'sanemta'): ?>
                 <td><span class="badge sanemts">Saņemts</span></td>
                 <td>+<?= $m['daudzums'] ?> <?= e($m['vieniba']) ?></td>
             <?php else: ?>
