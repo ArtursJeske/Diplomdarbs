@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $pdo->commit();
 
-        flash('Kustība reģistrēta.');
+        //flash('Kustība reģistrēta.');
         header('Location: movements.php');
         exit;
     }
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $form_type = $type;
 }
 
-// 50 jaunākās kustības vēstures tabulai
+
 $movements = $pdo->query(
     'SELECT k.*, p.kods, p.nosaukums, p.vieniba, l.vards
      FROM kustibas k
@@ -64,7 +64,7 @@ $movements = $pdo->query(
      LIMIT 50'
 )->fetchAll();
 
-// Preces izvēlnei
+
 $products = $pdo->query('SELECT id, kods, nosaukums, daudzums, vieniba FROM preces ORDER BY nosaukums')->fetchAll();
 
 $title = 'Kustības';
