@@ -18,3 +18,8 @@ function format_date($date)
     return date('d.m.Y H:i', strtotime($date));
 }
 
+function flash($message, $type = 'success')
+{
+    $_SESSION['flash'] = $message;
+    $_SESSION['flash_type'] = $type;
+}
