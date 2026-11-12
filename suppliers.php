@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'delete') {
         require_admin();
 
-        $stmt = $pdo->prepare('DELETE FROM piegadatajo WHERE id =?');
+        $stmt = $pdo->prepare('DELETE FROM piegadataji WHERE id =?');
         $stmt->execute([$id]);
         //flash('Piegādātājs dzēsts.');
         header('Location: suppliers.php');
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nosaukums = trim($_POST['nosaukums']);
     $kontaktpersona = trim($_POST['kontaktpersona']);
     $talrunis = trim($_POST['talrunis']);
-    $epasts = trim($POST['epasts']);
+    $epasts = trim($_POST['epasts']);
 
     if ($nosaukums == '') {
         $error = 'Nosaukums ir obligāts';
@@ -36,13 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = 'Nederīga e-pasta adrese';
     }
 
-    if ($errpr == '') {
+    if ($error == '') {
         if ($id > 0) {
             $stmt = $pdo->prepare('UPDATE piegadataji SET nosaukums = ?, kontaktpersona = ?, talrunis = ?, epasts = ? WHERE id = ?');
             $stmt->execute([$nosaukums, $kontaktpersona, $talrunis, $epasts, $id]);
             //flash('Piegādātājs atjaunots.');
         } else {
-            $stmt = $pdo->prepare('INSERT INTO piegadataji (nosaukums, kontaktpersona, talrunis, epasts) VALUES (?, ?, ?, ?');
+            $stmt = $pdo->prepare('INSERT INTO piegadataji (nosaukums, kontaktpersona, talrunis, epasts) VALUES (?, ?, ?, ?)');
             $stmt->execute([$nosaukums, $kontaktpersona, $talrunis, $epasts]);
             //flash('Piegādātājs pievienots');
         }
