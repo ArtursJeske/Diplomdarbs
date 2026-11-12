@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare('SELECT COUNT(*) FROM preces WHERE kategorija_id = ?');
         $stmt->execute([$id]);
         if ($stmt->fetchColumn() > 0) {
-            //flash('Kategorijā ir preces, tāpēc to nevar dzēst!', 'error');
+            flash('Kategorijā ir preces, tāpēc to nevar dzēst!', 'error');
         } else {
             $stmt = $pdo->prepare('DELETE FROM kategorijas WHERE id = ?');
             $stmt->execute([$id]);
-            //flash('Kategorija dzēsta!');
+            flash('Kategorija dzēsta!');
         }
         header('Location: categories.php');
         exit;
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $stmt =$pdo->prepare('INSERT INTO kategorijas (nosaukums, apraksts) VALUES (?, ?)');
             $stmt->execute([$nosaukums, $apraksts]);
-            //flash('Kategorija pievienota.');    
+            flash('Kategorija pievienota.');    
         }
         header('Location: categories.php');
         exit;
