@@ -61,7 +61,7 @@ CREATE TABLE preces (
 CREATE TABLE kustibas(
     id              INT AUTO_INCREMENT PRIMARY KEY,
     prece_id        INT NOT NULL,
-    tips            ENUM('saņemta', 'izsniegta') NOT NULL,
+    tips            ENUM('sanemta', 'izsniegta') NOT NULL,
     daudzums        INT NOT NULL,
     piezime         VARCHAR(255) NULL,
     lietotajs_id    INT NOT NULL,
