@@ -33,10 +33,10 @@ require 'includes/header.php';
 
 <div class="stats">
     <div><?= (int)$low_count ?></div>
-    <div>Preces ar zemu atlikumu></div>
+    <div>Preces ar zemu atlikumu</div>
 </div>
 
-<div class="stats">
+<div class="card">
     <section>
         <h2> Preces ar zemu atlikumu</h2>
         <?php if (count($low_stock) == 0): ?>
