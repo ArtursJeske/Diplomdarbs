@@ -1,12 +1,15 @@
 <?php
-
+// Sākumlapa: noliktavas kopsavilkums un preces ar zemu atlikumu.
 require_once 'includes/functions.php';
 require_login();
 
-$product_count = $pdo->query('SELECT COUNT(*) FROM preces')->fetchColumn();
-$total_qty = $pdo->query('SELECT SUM(daudzums) FROM preces')->fetchColumn();
-$total_value = $pdo->query('SELECT SUM(daudzums * cena) FROM preces')->fetchColumn();
-$low_count = $pdo->query('SELECT COUNT(*) FROM preces WHERE daudzums <= min_daudzums')->fetchColumn();
+//Kopsavilkuma rādītaji (vaicājumos nav lietotāja datu, tāpēc var lietot query())
+$product_count = $pdo->query('SELECT COUNT(*) FROM preces')->fetchColumn();              // preču veidu skaits
+$total_qty = $pdo->query('SELECT SUM(daudzums) FROM preces')->fetchColumn();             // vienību kopskaits
+$total_value = $pdo->query('SELECT SUM(daudzums * cena) FROM preces')->fetchColumn();    // Noliktavas vērtība EUR
+$low_count = $pdo->query('SELECT COUNT(*) FROM preces WHERE daudzums <= min_daudzums')->fetchColumn(); 
+
+//Preces kuras japasūta - atlikums sasniedzis minimumu (10 ar mazāko atlikumu, Limitu var nomainīt schema.sql)
 $low_stock = $pdo->query('SELECT * FROM preces WHERE daudzums <= min_daudzums ORDER BY daudzums LIMIT 10')->fetchAll();
 
 
@@ -18,6 +21,7 @@ require 'includes/header.php';
 
 <h1>Sākums</h1>
 
+<!-- Kopsavilkuma rādītaji. (int) - lai tukšā sistēmā rādītu 0, nevis neko (SUM atgriež NULL) -->
 <div class="stats">
     <div><?= (int)$product_count ?></div>
     <div>Preču veidi</div>
@@ -36,6 +40,7 @@ require 'includes/header.php';
     <div>Preces ar zemu atlikumu</div>
 </div>
 
+<!-- Preces, kuru atlikums ir minimālajā līmenī vai zem tā -->
 <div class="card">
     <section>
         <h2> Preces ar zemu atlikumu</h2>
@@ -56,5 +61,5 @@ require 'includes/header.php';
         <?php endif; ?>
     </section>                           
 </div>
-<br></br>
+
 <?php require 'includes/footer.php'; ?>
