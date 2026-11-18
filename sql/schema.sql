@@ -17,10 +17,10 @@ DROP TABLE IF EXISTS lietotaji;
 -- Sistēmas lietotāji (pieslēgšanās un tiesības)
 CREATE TABLE lietotaji (
     id                INT AUTO_INCREMENT PRIMARY KEY,
-    lietotajvards     VARCHAR(50) NOT NULL UNIQUE,  --lietotājvārds nedrīkst atkārtoties.
-    parole_hash       VARCHAR(255) NOT NULL,        --password_hash() rezultāts, nevis pati parole.
-    vards             VARCHAR(100) NOT NULL,        --vārds kas redzams sistēmā
-    loma              ENUM('admin', 'darbinieks') NOT NULL DEFAULT 'darbinieks', --admin drīkst dzēst un pārvaldīt lietotājus
+    lietotajvards     VARCHAR(50) NOT NULL UNIQUE,  -- lietotājvārds nedrīkst atkārtoties.
+    parole_hash       VARCHAR(255) NOT NULL,        -- password_hash() rezultāts, nevis pati parole.
+    vards             VARCHAR(100) NOT NULL,        -- vārds kas redzams sistēmā
+    loma              ENUM('admin', 'darbinieks') NOT NULL DEFAULT 'darbinieks', -- admin drīkst dzēst un pārvaldīt lietotājus
     izveidots         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
