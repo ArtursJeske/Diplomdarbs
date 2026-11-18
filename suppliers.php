@@ -10,7 +10,6 @@ $edit_id = (int)($_GET['edit'] ?? 0);
 $nosaukums = '';
 $kontaktpersona = '';
 $talrunis = '';
-$talrunis = '';
 $epasts = '';
 
 //Forma iesniegta (Saglabāt vai Dzēst)
