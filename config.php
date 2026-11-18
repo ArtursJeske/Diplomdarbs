@@ -1,5 +1,5 @@
 <?php
-//Lietotnes konfigurācija.
+// Lietotnes konfigurācija.
 // Šeit glabājas iestatījumi, kas atšķiras katrā datorā/serverī.
 // Ja prajektu pārnes uz citu datoru, jāmaina tikai šis fails.
 
