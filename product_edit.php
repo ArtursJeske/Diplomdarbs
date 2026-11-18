@@ -1,11 +1,16 @@
 <?php
+// Preces pievienošana un labošana vienā lapā.
+// product_edit.php  - jauna prece
+// product_edit.php?id=1 - labo preci ar id 1
+// Atlikumu šeit nevar mainīt - tas mainās tikai caur kustībām (movements.php)
 
 require_once 'includes/functions.php';
 require_login();
 
-$id = (int)($_GET['id'] ?? 0);
-$errors = [];
+$id = (int)($_GET['id'] ?? 0);  // 0 = jauna prece, >0 = labošana
+$errors = [];                   // visas kļūdas tiek savāktas un parādītas sarakstā vienlaikus
 
+// Noklusētās vērtības jaunai precei.
 $product = [
     'kods' => '',
     'nosaukums' => '',
@@ -16,10 +21,12 @@ $product = [
     'min_daudzums' => 0,
 ];
 
+// Labošanas režīms: ielādē preci no datubāzes
 if ($id > 0) {
     $stmt = $pdo->prepare('SELECT * FROM preces WHERE id = ?');
     $stmt->execute([$id]);
     $product = $stmt->fetch();
+    // Ja tādas preces nav(nepareizs id) - atpakaļ uz sarakstu
     if (!$product) {
         $errors[] = 'Prece nav atrasta';
         header('Location: products.php');
@@ -27,24 +34,32 @@ if ($id > 0) {
     }
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Ievadītās vērtības ieraksta $product, lai kļūdas gadījumā tās paliktu formā
     $product['kods'] = trim($_POST['kods']);
     $product['nosaukums'] = trim($_POST['nosaukums']);
     $product['kategorija_id'] = (int)$_POST['kategorija_id'];
     $product['vieniba'] = trim($_POST['vieniba']);
-    $product['cena'] = str_replace(',', '.', trim($_POST['cena']));
+    $product['cena'] = str_replace(',', '.', trim($_POST['cena'])); // pārrakstām komatu uz punktu, lai DB varētu ierakstīt.
     $product['min_daudzums'] = (int)$_POST['min_daudzums'];
    
+    // Piegādātajs nav obligāts
     if ($_POST['piegadatajs_id'] == '') {
         $product['piegadatajs_id'] = null;        
     } else {
         $product['piegadatajs_id'] = (int)$_POST['piegadatajs_id'];
     }
+    // Ja mērvienība nav ievadīta, ta dnoklusētā.
     if ($product['vieniba'] == '') {
         $product['vieniba'] = 'gab.';
     }
+
+    // Pārbaudes
+    // Kods obligāts un unikāls (id != ? - lai labojot neskaitītu pašu preci)
     if ($product['kods'] == '') {
         $errors[] = 'Kods ir obligāts';
+
     } else {
         $stmt = $pdo->prepare('SELECT COUNT(*) FROM preces WHERE kods = ? AND id != ?');
         $stmt->execute([$product['kods'], $id]);
@@ -55,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($product['nosaukums'] == '') {
         $errors[] = "Nosaukums ir obligāts";
     }
+    // 0 = nav izvēlēta 
     if ($product['kategorija_id'] == 0) {
         $errors[] = 'Izvēlies kategoriju.';
     }
@@ -65,8 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'Minimālais atlikums nevar būt negatīvs.';
     }
 
+    // Ja kļūdu nav tad saglabā.
     if (count($errors) == 0) {
         if ($id == 0) {
+            // Jauna prece; daudzums netiek norādīts - DB noklusētā vērtība ir 0
             $stmt = $pdo->prepare(
                 'INSERT INTO preces (kods, nosaukums, kategorija_id, piegadatajs_id, vieniba, cena, min_daudzums)
                  VALUES (?, ?, ?, ?, ?, ?, ?)'
@@ -91,15 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    
 }
 
-
+// Saraksti izvēlnēm
 $categories = $pdo->query('SELECT id, nosaukums FROM kategorijas ORDER BY nosaukums')->fetchAll();
 $suppliers = $pdo->query('SELECT id, nosaukums FROM piegadataji ORDER BY nosaukums')->fetchAll();
 
-$title = $id == 0 ? 'Jauna prece' : 'Labot preci';
-require 'includes/header.php';
+$title = $id == 0 ? 'Jauna prece' : 'Labot preci';  // Virsraksts atkarīgs no režīma
+require 'includes/header.php';                      
 ?>
 <h1><?= $title ?></h1>
 
+<!-- Visu kļūdu saraksts -->
 <?php if (count($errors) > 0): ?>
     <div class="alert error">
         <ul>
@@ -110,6 +129,7 @@ require 'includes/header.php';
     </div>
 <?php endif; ?>
 
+<!-- Preces forma; * - obligātie lauki. <label> aptver lauku - kliksķis uz teksta aktivizē lauku -->
 <form method="post" class="card form">
     <label>Kods *
         <input type="text" name="kods" maxlength="30" value="<?= e($product['kods']) ?>" required>
@@ -117,6 +137,7 @@ require 'includes/header.php';
     <label>Nosaukums *
         <input type="text" name="nosaukums" maxlength="150" value="<?= e($product['nosaukums']) ?>" required>
     </label>
+    <!-- Kategoriju ivēlne; selected - atzīmē preces pašreizejo kategoriju -->
     <label>Kategorija *
         <select name="kategorija_id" required>
             <option value="">— izvēlies —</option>
@@ -125,6 +146,7 @@ require 'includes/header.php';
             <?php endforeach; ?>
         </select>
     </label>
+    <!-- Piegādātajs nav obligāts , saglabākas kā NULL -->
     <label>Piegādātājs
         <select name="piegadatajs_id">
             <option value="">— nav —</option>
@@ -142,6 +164,7 @@ require 'includes/header.php';
     <label>Minimālais atlikums
         <input type="number" name="min_daudzums" min="0" value="<?= e($product['min_daudzums']) ?>">
     </label>
+    <!-- Labojot parāda tikai atlikumu apskatei, to maina kustībās -->
     <?php if ($id > 0): ?>
         <p>Pašreizējais atlikums: <strong><?= $product['daudzums'] ?></strong>
             (mainās ar <a href="movements.php?prece=<?= $id ?>">kustībām</a>)</p>
