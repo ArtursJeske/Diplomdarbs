@@ -1,0 +1,337 @@
+/* =========================================================
+   Noliktavas uzskaites sistēmas stils.
+   Vienkāršs melnbalts dizains ar divām papildu krāsām:
+   zaļa - veiksmīgs/saņemts, sarkana - kļūda/izsniegts/dzēst.
+   Failu ielādē includes/header.php katrā lapā.
+   ========================================================= */
+
+/* --- Krāsu mainīgie ---
+   Krāsas definētas vienā vietā; lai mainītu krāsu visā lapā,
+   pietiek nomainīt vērtību šeit. Izmanto ar var(--nosaukums). */
+:root {
+    --accent: #18181b;      /* galvene, pogas, tabulas virsraksti */
+    --ok: #2e7d32;          /* veiksmīgs paziņojums, saņemts */
+    --ok-light: #e8f5e9;    /* gaišs fons veiksmīgam paziņojumam */
+    --err: #c62828;         /* kļūda, izsniegts, dzēst */
+    --err-light: #fdecea;   /* gaišs fons kļūdai un zemam atlikumam */
+}
+
+/* Platums un augstums ietver arī padding un border -
+   elementi neizplešas platāki par norādīto width */
+* {
+    box-sizing: border-box;
+}
+
+/* --- Pamatstils visai lapai --- */
+body {
+    margin: 0;                                   /* noņem pārlūka noklusēto atstarpi ap lapu */
+    font-family: Arial, Helvetica, sans-serif;   /* ja nav Arial, tiek ņemts nākamais fonts */
+    font-size: 15px;
+    background: #fff;
+    color: #000;
+}
+
+/* Saites melnas (nevis noklusētās zilās) */
+a {
+    color: #000;
+}
+
+/* Virsrakstiem vienāda atstarpe tikai apakšā */
+h1, h2, h3 {
+    margin: 0 0 15px;
+}
+
+/* =========================================================
+   Galvene (includes/header.php)
+   ========================================================= */
+
+/* Tumša josla lapas augšā; flex - logo, izvēlne un lietotājs vienā rindā */
+.topbar {
+    display: flex;
+    align-items: center;          /* vertikāli centrē elementus */
+    gap: 20px;                    /* atstarpe starp elementiem */
+    padding: 12px 20px;
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Galvenes saites baltas un bez pasvītrojuma */
+.topbar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Pasvītrojums parādās, uzbraucot ar peli */
+.topbar a:hover {
+    text-decoration: underline;
+}
+
+/* Sistēmas nosaukums galvenes kreisajā pusē */
+.logo {
+    font-weight: bold;
+}
+
+/* Izvēlne; flex: 1 - aizņem visu brīvo vietu, tāpēc lietotāja bloks nobīdās pa labi */
+.topbar nav {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+}
+
+/* Atstarpe pirms saites "Iziet" pie lietotāja vārda */
+.user a {
+    margin-left: 10px;
+}
+
+/* =========================================================
+   Lapas saturs
+   ========================================================= */
+
+/* Satura bloks (<main> header.php): ne platāks par 1100px un centrēts */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;               /* auto pa kreisi un pa labi - centrē */
+    padding: 20px;
+}
+
+/* Virsraksts ar pogu blakus (products.php: "Preces" + "+ Jauna prece").
+   space-between - virsraksts pa kreisi, poga pa labi */
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Rāmis ap formām */
+.card {
+    border: 1px solid #000;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Pieteikšanās forma (login.php): šaura un centrēta */
+.login-box {
+    max-width: 350px;
+    margin: 50px auto;
+}
+
+/* =========================================================
+   Statistika sākumlapā (index.php)
+   ========================================================= */
+
+/* Statistikas bloki; inline-block - novietojas blakus vienā rindā */
+.stats {
+    display: inline-block;
+    min-width: 200px;
+    border: 1px solid #000;
+    padding: 15px;
+    margin: 0 10px 20px 0;
+}
+
+/* Bloka pirmais elements - skaitlis - liels un trekns */
+.stats div:first-child {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   Tabulas
+   ========================================================= */
+
+/* border-collapse - blakus esošo šūnu rāmji saplūst vienā līnijā */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Tabulas virsraksta rinda - tumša ar baltu tekstu */
+th {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Prece ar zemu atlikumu (products.php pievieno klasi "low") - sarkana rinda */
+tr.low td {
+    background: var(--err-light);
+    color: var(--err);
+    font-weight: bold;
+}
+
+/* =========================================================
+   Formas
+   ========================================================= */
+
+/* Katrs lauks ar nosaukumu savā rindā */
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Visiem ievades laukiem vienāds izskats; font: inherit - tāds pats fonts kā lapai
+   (pārlūks laukiem pēc noklusējuma lieto citu, mazāku fontu) */
+input, select, textarea {
+    padding: 6px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    font: inherit;
+}
+
+/* Vertikāla forma (product_edit.php): lauki visā platumā zem nosaukuma */
+.form input, .form select, .form textarea {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* Horizontāla forma un filtri: lauki vienā rindā.
+   flex-wrap - ja nepietiek vietas, lauki pāriet nākamajā rindā */
+.form-inline, .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;        /* lauki nolīdzināti pēc apakšējās malas */
+}
+
+/* Rindā esošajām formām atstarpi nodrošina gap, tāpēc margin nav vajadzīgs */
+.form-inline label, .filters label {
+    margin-bottom: 0;
+}
+
+/* Pogu bloks formas apakšā (product_edit.php) */
+.form-buttons {
+    margin-top: 10px;
+}
+
+/* Elements tekstā bez jaunas rindas: izvēles rūtiņa products.php,
+   paroles maiņas forma users.php tabulā */
+.inline, .inline-form {
+    display: inline;
+}
+
+/* Darbību šūna tabulā ("Labot" / "Dzēst"): saites nepāriet nākamajā rindā */
+.actions {
+    white-space: nowrap;
+}
+
+/* =========================================================
+   Pogas un saites
+   ========================================================= */
+
+/* Galvenā poga - tumša; .btn var likt arī saitei, lai tā izskatītos kā poga */
+.btn, button {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;              /* peles kursors - roka */
+}
+
+/* Uzbraucot ar peli, krāsas apmainās */
+.btn:hover, button:hover {
+    background: #fff;
+    color: var(--accent);
+}
+
+/* Poga, kas izskatās kā saite (piem. "Dzēst" tabulā).
+   Dzēšana ir POST forma ar pogu, bet tabulā tai jāizskatās kā saitei "Labot" blakus. */
+.link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #000;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Saites tipa pogai nemaina krāsas, uzbraucot ar peli (pārraksta button:hover) */
+.link:hover {
+    background: none;
+    color: #000;
+}
+
+/* Bīstama darbība (Dzēst) - sarkana un trekna */
+.link.danger {
+    color: var(--err);
+    font-weight: bold;
+}
+
+/* Kustības tipa izvēle (movements.php): "Saņemt" / "Izsniegt" */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.tabs a {
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    text-decoration: none;
+}
+
+/* Pašreizējais režīms - tumšs kā poga */
+.tabs a.active {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* =========================================================
+   Paziņojumi (flash() un kļūdas)
+   ========================================================= */
+
+/* Pēc noklusējuma - zaļš (veiksmīga darbība) */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--ok);
+    background: var(--ok-light);
+    color: var(--ok);
+}
+
+/* Ar klasi "error" - sarkans (kļūda) */
+.alert.error {
+    border-color: var(--err);
+    background: var(--err-light);
+    color: var(--err);
+}
+
+/* =========================================================
+   Kustību tips tabulā (movements.php)
+   ========================================================= */
+
+/* Maza krāsaina zīme ar tekstu */
+.badge {
+    padding: 2px 8px;
+    font-size: 13px;
+    color: #fff;
+}
+
+/* Saņemts - zaļš */
+.badge.sanemts {
+    background: var(--ok);
+}
+
+/* Izsniegts - sarkans */
+.badge.izsniegts {
+    background: var(--err);
+}
+
+/* =========================================================
+   Kājene (includes/footer.php)
+   ========================================================= */
+.footer {
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid #000;   /* līnija, kas atdala kājeni no satura */
+    font-size: 13px;
+}
