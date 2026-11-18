@@ -82,9 +82,9 @@ CREATE TABLE kustibas(
     piezime         VARCHAR(255) NULL,
     lietotajs_id    INT NOT NULL,
     datums          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    -- Dzēšot preci, tiek izdzēsta arī tās kustību vēsture.
+    -- Preci, kurai ir kustības, dzēst nedrīkst - kustību vēsture saglabājas.
     CONSTRAINT fk_kustiba_prece FOREIGN KEY (prece_id)
-        REFERENCES preces(id) ON DELETE CASCADE,
+        REFERENCES preces(id) ON DELETE RESTRICT,
     -- Piegādātāju vai klientu, kam ir kustības , dzēst nedrīkst.    
     CONSTRAINT fk_kustiba_piegadatajs FOREIGN KEY (piegadatajs_id)
         REFERENCES piegadataji(id) ON DELETE RESTRICT,
