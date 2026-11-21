@@ -16,7 +16,7 @@ $product = [
     'nosaukums' => '',
     'kategorija_id' => '',
     'piegadatajs_id' => '',
-    'vieniba' => 'gab.',
+    'vieniba' => 'gab',
     'cena' => '0.00',
     'min_daudzums' => 0,
 ];
@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $product['piegadatajs_id'] = (int)$_POST['piegadatajs_id'];
     }
-    // Ja mērvienība nav ievadīta, ta dnoklusētā.
+    // Ja mērvienība nav ievadīta, tad noklusētā.
     if ($product['vieniba'] == '') {
-        $product['vieniba'] = 'gab.';
+        $product['vieniba'] = 'gab';
     }
 
     // Pārbaudes
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare('SELECT COUNT(*) FROM preces WHERE kods = ? AND id != ?');
         $stmt->execute([$product['kods'], $id]);
         if ($stmt->fetchColumn() > 0) {
-            $errors[] = 'Prece ar šādu koddu jau eksistē';
+            $errors[] = 'Prece ar šādu kodu jau eksistē';
         }
     }
     if ($product['nosaukums'] == '') {

@@ -7,6 +7,10 @@ require_once 'includes/functions.php';   // DB savienojums ($pdo) un palīgfunkc
 require_admin();                          // visa lapa tikai administratoram (iekļauj arī require_login)
 
 $error = '';
+// Formas vērtības - kļūdas gadījumā ievadītais paliek formā (paroli neatgriež)
+$username = '';
+$name = '';
+$role = 'darbinieks';
 
 // --- Forma iesniegta ---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -110,14 +114,14 @@ require 'includes/header.php';    // lapas augšdaļa: <head>, izvēlne, flash p
     <h2>Jauns lietotājs</h2>
     <input type="hidden" name="action" value="create">
     <!-- maxlength atbilst kolonnu garumam datubāzē -->
-    <input type="text" name="lietotajvards" placeholder="Lietotājvārds" maxlength="50" required>
-    <input type="text" name="vards" placeholder="Vārds, uzvārds" maxlength="100" required>
+    <input type="text" name="lietotajvards" placeholder="Lietotājvārds" maxlength="50" value="<?= e($username) ?>" required>
+    <input type="text" name="vards" placeholder="Vārds, uzvārds" maxlength="100" value="<?= e($name) ?>" required>
     <!-- type="password" - ievadītie simboli netiek rādīti -->
     <input type="password" name="parole" placeholder="Parole (min. 6)" required>
     <!-- Loma: darbinieks - ikdienas darbs; administrators - arī dzēšana un lietotāju pārvaldība -->
     <select name="loma">
         <option value="darbinieks">Darbinieks</option>
-        <option value="admin">Administrators</option>
+        <option value="admin" <?= $role == 'admin' ? 'selected' : '' ?>>Administrators</option>
     </select>
     <button type="submit" class="btn">Izveidot</button>
 </form>

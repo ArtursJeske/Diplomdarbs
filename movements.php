@@ -14,6 +14,8 @@ $selected_product = (int)($_GET['prece'] ?? 0);  // prece no adreses (movements.
 $form_type = ($_GET['tips'] ?? '') == 'izsniegta' ? 'izsniegta' : 'sanemta';
 $selected_supplier = 0;
 $selected_client = 0;
+$qty = '';    // daudzums un piezīme - kļūdas gadījumā paliek formā
+$note = '';
 
 // Ja lapa atvērta no preces (movements.php?prece=id), piedāvā preces piegādātāju
 // (int) - ja precei nav piegādātāja (NULL) vai prece neeksistē (false), iegūst 0 = nekas nav izvēlēts
@@ -210,8 +212,8 @@ require 'includes/header.php';    // lapas augšdaļa: <head>, izvēlne, flash p
     <?php endif; ?>
 
     <!-- min="1", required - pārbaude pārlūkā; PHP to pašu pārbauda vēlreiz -->
-    <input type="number" name="daudzums" min="1" placeholder="Daudzums" required>
-    <input type="text" name="piezime" maxlength="255" placeholder="Piezīme (nav obligāta)">
+    <input type="number" name="daudzums" min="1" placeholder="Daudzums" value="<?= e($qty) ?>" required>
+    <input type="text" name="piezime" maxlength="255" placeholder="Piezīme (nav obligāta)" value="<?= e($note) ?>">
     <button type="submit" class="btn">Reģistrēt</button>
 </form>
 
