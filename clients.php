@@ -55,10 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Labo esošo klientu
             $stmt = $pdo->prepare('UPDATE klienti SET nosaukums = ?, kontaktpersona = ?, talrunis = ?, epasts = ? WHERE id = ?');
             $stmt->execute([$nosaukums, $kontaktpersona, $talrunis, $epasts, $id]);
+            flash('Klients atjaunots.');
         } else {
             // Pievieno jaunu klientu
             $stmt = $pdo->prepare('INSERT INTO klienti (nosaukums, kontaktpersona, talrunis, epasts) VALUES (?, ?, ?, ?)');
             $stmt->execute([$nosaukums, $kontaktpersona, $talrunis, $epasts]);
+            flash('Klients pievienots.');
         }
         // Pāradresācija lai pārlādēšana neiesniedz formu vēlreiz.
         header('Location: clients.php');

@@ -27,13 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$username]);
 
         // Pārbaudes (if/elseif - parāda pirmo atrasto kļūdu)
-        if (strlen($username) < 3) {
+        // mb_strlen() skaita burtus; strlen() skaita baitus, un "ā" UTF-8 kodējumā ir 2 baiti
+        if (mb_strlen($username) < 3) {
             $error = 'Lietotājvārdam jābūt vismaz 3 simbolus garam.';
         } elseif ($stmt->fetchColumn() > 0) {
             $error = 'Šāds lietotājvārds jau ir aizņemts.';
         } elseif ($name == '') {
             $error = 'Vārds ir obligāts.';
-        } elseif (strlen($password) < 6) {
+        } elseif (mb_strlen($password) < 6) {
             $error = 'Parolei jābūt vismaz 6 simbolus garai.';
         }
 
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // --- Paroles maiņa (administrators var nomainīt jebkura lietotāja paroli) ---
     if ($action == 'password') {
         $password = $_POST['parole'];
-        if (strlen($password) < 6) {
+        if (mb_strlen($password) < 6) {
             flash('Parolei jābūt vismaz 6 simbolus garai.', 'error');
         } else {
             // Jaunā parole arī tiek saglabāta tikai kā hash

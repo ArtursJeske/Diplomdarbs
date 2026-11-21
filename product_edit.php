@@ -74,7 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($product['kategorija_id'] == 0) {
         $errors[] = 'Izvēlies kategoriju.';
     }
-    if ($product['cena'] < 0){
+    // is_numeric() - vai cena ir skaitlis (piem. "abc" netiek pieņemts)
+    if (!is_numeric($product['cena'])) {
+        $errors[] = 'Cenai jābūt skaitlim.';
+    } elseif ($product['cena'] < 0) {
         $errors[] = 'Cenai jābūt pozitīvai.';
     }
     if ($product['min_daudzums'] < 0) {
